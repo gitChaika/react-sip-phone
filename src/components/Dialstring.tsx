@@ -17,6 +17,8 @@ interface Props {
   started: Boolean
   sessionsLimitReached: Function
   attendedTransfersList: Array<string>
+  currentDialString?: string
+  onDialStringChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 class Dialstring extends React.Component<Props> {
@@ -24,6 +26,9 @@ class Dialstring extends React.Component<Props> {
     currentDialString: ''
   }
 
+  get currentDialString(): string {
+    return !!this.props.currentDialString ? this.props.currentDialString : this.state.currentDialString;
+  }
   handleDial() {
     const sessionsActive: number = Object.keys(this.props.sessions).length
     const attendedTransferActive: number = this.props.attendedTransfersList.length
@@ -39,13 +44,13 @@ class Dialstring extends React.Component<Props> {
       }
       // dialstring check
       if (!this.checkDialstring()) {
-        this.props.sipAccount.makeCall(`${this.state.currentDialString}`)
+        this.props.sipAccount.makeCall(`${this.currentDialString}`)
       }
     }
   }
 
   checkDialstring() {
-    return this.state.currentDialString.length === 0
+    return this.currentDialString.length === 0
   }
 
   render() {
@@ -74,10 +79,15 @@ class Dialstring extends React.Component<Props> {
                 e.preventDefault()
               }
             }}
+            value={this.currentDialString}
             placeholder='Введите номер'
-            onChange={(e) =>
-              this.setState({ currentDialString: e.target.value })
-            }
+            onChange={(e) => {
+              if (!!this.props.onDialStringChange) {
+                this.props.onDialStringChange(e)
+              } else {
+                this.setState({ currentDialString: e.target.value })
+              }
+            }}
           />
           <button
             className={styles.dialButton}

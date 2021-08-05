@@ -15,11 +15,13 @@ interface Props {
   width: number
   height: number
   name: string
+  currentDialString?: string
   phoneConfig: PhoneConfig
   sipCredentials: SipCredentials
   sipConfig: SipConfig
   appConfig: AppConfig
   containerStyle: any
+onDialStringChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 export const phoneStore = defaultStore
@@ -34,6 +36,8 @@ export const ReactSipPhone = ({
   sipConfig,
   appConfig,
   sipCredentials,
+  currentDialString,
+  onDialStringChange,
   containerStyle = {}
 }: Props) => {
   // If no store is passed into component, default store is used
@@ -59,6 +63,8 @@ export const ReactSipPhone = ({
             />
             {phoneConfig.disabledFeatures.includes('dialstring') ? null : (
               <Dialstring
+                currentDialString={currentDialString}
+                onDialStringChange={onDialStringChange}
                 sipConfig={sipConfig}
                 phoneConfig={phoneConfig}
                 appConfig={appConfig}

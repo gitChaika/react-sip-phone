@@ -9,6 +9,22 @@ import thunk from 'redux-thunk';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -2412,13 +2428,13 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
       }
 
       if (!this.checkDialstring()) {
-        this.props.sipAccount.makeCall("" + this.state.currentDialString);
+        this.props.sipAccount.makeCall("" + this.currentDialString);
       }
     }
   };
 
   _proto.checkDialstring = function checkDialstring() {
-    return this.state.currentDialString.length === 0;
+    return this.currentDialString.length === 0;
   };
 
   _proto.render = function render() {
@@ -2451,11 +2467,16 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
             e.preventDefault();
           }
         },
+        value: this.currentDialString,
         placeholder: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u043E\u043C\u0435\u0440",
         onChange: function onChange(e) {
-          return _this2.setState({
-            currentDialString: e.target.value
-          });
+          if (!!_this2.props.onDialStringChange) {
+            _this2.props.onDialStringChange(e);
+          } else {
+            _this2.setState({
+              currentDialString: e.target.value
+            });
+          }
         }
       }), createElement("button", {
         className: styles$3.dialButton,
@@ -2468,6 +2489,13 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
       })));
     }
   };
+
+  _createClass(Dialstring, [{
+    key: "currentDialString",
+    get: function get() {
+      return !!this.props.currentDialString ? this.props.currentDialString : this.state.currentDialString;
+    }
+  }]);
 
   return Dialstring;
 }(Component);
@@ -2764,6 +2792,8 @@ var ReactSipPhone = function ReactSipPhone(_ref) {
       sipConfig = _ref.sipConfig,
       appConfig = _ref.appConfig,
       sipCredentials = _ref.sipCredentials,
+      currentDialString = _ref.currentDialString,
+      onDialStringChange = _ref.onDialStringChange,
       _ref$containerStyle = _ref.containerStyle,
       containerStyle = _ref$containerStyle === void 0 ? {} : _ref$containerStyle;
   return createElement(Provider, {
@@ -2784,6 +2814,8 @@ var ReactSipPhone = function ReactSipPhone(_ref) {
     appConfig: appConfig,
     name: name
   }), phoneConfig.disabledFeatures.includes('dialstring') ? null : createElement(D, {
+    currentDialString: currentDialString,
+    onDialStringChange: onDialStringChange,
     sipConfig: sipConfig,
     phoneConfig: phoneConfig,
     appConfig: appConfig
