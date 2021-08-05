@@ -2450,7 +2450,7 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
             e.preventDefault();
           }
         },
-        placeholder: 'Enter the number to dial...',
+        placeholder: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u043E\u043C\u0435\u0440",
         onChange: function onChange(e) {
           return _this2.setState({
             currentDialString: e.target.value
