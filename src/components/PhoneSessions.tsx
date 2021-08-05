@@ -15,7 +15,7 @@ const getSessions = (
     if (attendedTransfers.includes(session)) continue
     if (incomingCalls.includes(session)) {
       if (Object.keys(sessions).length >= phoneConfig.sessionsLimit + incomingCalls.length){
-        console.log('Unable to create more sessions...')
+        console.log('Невозможно создать больше сеансов...')
         console.log('Check your phoneConfig.sessionsLimit option!')
       } else {
         elements.push(<Incoming session={sessions[session]} key={session} autoanswer={phoneConfig.autoAnswer}/>)

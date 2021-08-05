@@ -9,8 +9,9 @@ import { playDTMF } from '../../util/TonePlayer'
 
 interface Props {
   open: boolean
-  session: Session
-  deviceId: string
+  session?: Session
+  deviceId?: string
+  onButtonClick?(value: string): void
 }
 
 class Dialpad extends React.Component<Props> {
@@ -43,9 +44,13 @@ class Dialpad extends React.Component<Props> {
   }
 
   handleClick(value: string) {
-    if (this.props.session.state === SessionState.Established) {
+    const { session, onButtonClick, deviceId } = this.props
+    console.log('value', value)
+    if (!!session && !!deviceId && session.state === SessionState.Established) {
       this.sendDTMF(value)
-      playDTMF(value, this.props.deviceId)
+      playDTMF(value, deviceId)
+    } else if (!!onButtonClick) {
+      onButtonClick(value)
     }
   }
 
@@ -59,7 +64,7 @@ class Dialpad extends React.Component<Props> {
         }
       }
     }
-    this.props.session.info(options)
+    this.props.session!.info(options)
   }
 
   render() {
@@ -83,3 +88,6 @@ const mapStateToProps = (state: any) => ({
 })
 const actions = {}
 export default connect(mapStateToProps, actions)(Dialpad)
+
+export type { Props as DialpadProps }
+export { Dialpad as DialpadComponent }

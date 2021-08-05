@@ -94,7 +94,7 @@ const sipSessions = (
         onHold: endHold
       }
     }
-    case SIPSESSION_HOLD_REQUEST:{
+    case SIPSESSION_HOLD_REQUEST: {
       return {
         ...state,
         onHold: [...state.onHold, payload]

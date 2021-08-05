@@ -105,16 +105,16 @@ export const getFullNumber = (number: string) => {
 export const statusMask = (status: string) => {
   switch (status) {
     case 'Established':
-      return 'Connected'
+      return 'Соединение'
     case 'Establishing':
-      return 'Calling...'
+      return 'Звонок...'
     case 'Initial':
-      return 'Initial'
+      return 'Инициализирован'
     case 'Terminating':
     case 'Terminated':
-      return 'Ended'
+      return 'Завершен'
     default:
-      return 'Unknown Status'
+      return `Неизвестный статус: ${status}`
   }
 }
 

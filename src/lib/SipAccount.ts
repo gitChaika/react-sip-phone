@@ -132,7 +132,7 @@ export default class SIPAccount {
     // added sessionsLimit check if outside Application makes call using sipaccount w/o using dialstring
     const sessionsActive: number = Object.keys(sessionsActiveObject).length
     const sessionDiff: number = sessionsActive - attendedTransfersActive
-    if (sessionDiff >= sessionsLimit){
+    if (sessionDiff >= sessionsLimit) {
       phoneStore.dispatch({ type: SESSIONS_LIMIT_REACHED })
     } else {
       // Make a call

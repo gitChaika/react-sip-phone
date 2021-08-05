@@ -946,20 +946,20 @@ var getFullNumber = function getFullNumber(number) {
 var statusMask = function statusMask(status) {
   switch (status) {
     case 'Established':
-      return 'Connected';
+      return 'Соединение';
 
     case 'Establishing':
-      return 'Calling...';
+      return 'Звонок...';
 
     case 'Initial':
-      return 'Initial';
+      return 'Инициализирован';
 
     case 'Terminating':
     case 'Terminated':
-      return 'Ended';
+      return 'Завершен';
 
     default:
-      return 'Unknown Status';
+      return "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439 \u0441\u0442\u0430\u0442\u0443\u0441: " + status;
   }
 };
 var getDurationDisplay = function getDurationDisplay(duration) {
@@ -1324,7 +1324,7 @@ var Status = /*#__PURE__*/function (_React$Component) {
       className: styles$1.dropdownIcon,
       src: soundIcon
     }), createElement(Select, {
-      placeholder: 'Select Output...',
+      placeholder: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043A\u0430\u043D\u0430\u043B \u0432\u044B\u0445\u043E\u0434\u0430",
       value: outputs.find(function (output) {
         return output.value === props.primaryOutput;
       }) || null,
@@ -1339,7 +1339,7 @@ var Status = /*#__PURE__*/function (_React$Component) {
       className: styles$1.dropdownIcon,
       src: micIcon
     }), createElement(Select, {
-      placeholder: 'Select Input...',
+      placeholder: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043A\u0430\u043D\u0430\u043B \u0432\u0445\u043E\u0434\u0430",
       value: inputs.find(function (input) {
         return input.value === props.primaryInput;
       }),
@@ -1476,9 +1476,17 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
   };
 
   _proto.handleClick = function handleClick(value) {
-    if (this.props.session.state === SessionState.Established) {
+    var _this$props = this.props,
+        session = _this$props.session,
+        onButtonClick = _this$props.onButtonClick,
+        deviceId = _this$props.deviceId;
+    console.log('value', value);
+
+    if (!!session && !!deviceId && session.state === SessionState.Established) {
       this.sendDTMF(value);
-      playDTMF(value, this.props.deviceId);
+      playDTMF(value, deviceId);
+    } else if (!!onButtonClick) {
+      onButtonClick(value);
     }
   };
 
@@ -2117,11 +2125,7 @@ var Phone = /*#__PURE__*/function (_React$Component) {
       }
     }
 
-    return createElement(Fragment, null, props.phoneConfig.disabledFeatures.includes('remoteid') ? null : createElement(Fragment, null, createElement("hr", {
-      style: {
-        width: '100%'
-      }
-    }), createElement("div", null, props.session.remoteIdentity.uri.normal.user + " - " + props.session.remoteIdentity._displayName, createElement("br", null))), props.appSize === 'large' ? createElement("div", {
+    return createElement(Fragment, null, props.phoneConfig.disabledFeatures.includes('remoteid') ? null : createElement(Fragment, null, createElement("div", null, props.session.remoteIdentity.uri.normal.user + " - " + props.session.remoteIdentity._displayName, createElement("br", null))), props.appSize === 'large' ? createElement("div", {
       className: styles$2.statusLarge
     }, statusMask(props.session.state)) : createElement("div", null, statusMask(props.session.state)), createElement("br", null), durationDisplay, state.ended ? null : createElement(Fragment, null, createElement(Dialpad$1, {
       open: state.dialpadOpen,
@@ -2170,7 +2174,7 @@ var Phone = /*#__PURE__*/function (_React$Component) {
           transferDialString: e.target.value
         });
       },
-      placeholder: 'Enter the transfer destination...'
+      placeholder: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u043E\u043C\u0435\u0440 \u0434\u043B\u044F \u043F\u0435\u0440\u0435\u0430\u0434\u0440\u0435\u0441\u0430\u0446\u0438\u0438"
     }), this.state.attendedTransferStarted ? null : createElement(BlindTranfer, {
       destination: state.transferDialString,
       session: props.session
@@ -2328,7 +2332,7 @@ var getSessions = function getSessions(sessions, phoneConfig, attendedTransfers,
 
     if (incomingCalls.includes(session)) {
       if (Object.keys(sessions).length >= phoneConfig.sessionsLimit + incomingCalls.length) {
-        console.log('Unable to create more sessions...');
+        console.log('Невозможно создать больше сеансов...');
         console.log('Check your phoneConfig.sessionsLimit option!');
       } else {
         elements.push(createElement(Incoming$1, {
@@ -2754,6 +2758,7 @@ var defaultStore = createStore(persistedReducer, composeWithDevTools(applyMiddle
 var persistor = persistStore(defaultStore);
 
 var phoneStore = defaultStore;
+var Dialpad$2 = Dialpad;
 var ReactSipPhone = function ReactSipPhone(_ref) {
   var name = _ref.name,
       phoneConfig = _ref.phoneConfig,
@@ -2791,5 +2796,5 @@ var ReactSipPhone = function ReactSipPhone(_ref) {
   })))));
 };
 
-export { ReactSipPhone, phoneStore };
+export { Dialpad$2 as Dialpad, ReactSipPhone, phoneStore };
 //# sourceMappingURL=index.modern.js.map

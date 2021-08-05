@@ -6,5 +6,5 @@ export declare class SessionStateHandler {
     stateChange: (newState: SessionState) => void;
 }
 export declare const getFullNumber: (number: string) => string;
-export declare const statusMask: (status: string) => "Connected" | "Calling..." | "Initial" | "Ended" | "Unknown Status";
+export declare const statusMask: (status: string) => string;
 export declare const getDurationDisplay: (duration: number) => string;

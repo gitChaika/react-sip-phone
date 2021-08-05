@@ -134,7 +134,7 @@ class Phone extends React.Component<Props> {
       <React.Fragment>
         {props.phoneConfig.disabledFeatures.includes('remoteid') ? null : (
           <React.Fragment>
-            <hr style={{ width: '100%' }} />
+            {/*<hr style={{ width: '100%' }} />*/}
             <div>
               {
                 // @ts-ignore
@@ -201,7 +201,7 @@ class Phone extends React.Component<Props> {
                   onChange={(e) =>
                     this.setState({ transferDialString: e.target.value })
                   }
-                  placeholder='Enter the transfer destination...'
+                  placeholder='Введите номер для переадресации'
                 />
                 {this.state.attendedTransferStarted ? null : (
                   <BlindTranfer

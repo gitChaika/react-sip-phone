@@ -6,8 +6,9 @@ import SipWrapper from './SipWrapper'
 import Status from './components/Status'
 import PhoneSessions from './components/PhoneSessions'
 import Dialstring from './components/Dialstring'
+// eslint-disable-next-line no-unused-vars
 import { SipConfig, SipCredentials, PhoneConfig, AppConfig } from './models'
-
+import { DialpadComponent, DialpadProps } from './components/phone/Dialpad'
 import { defaultStore, persistor } from './store/configureStore'
 
 interface Props {
@@ -22,6 +23,10 @@ interface Props {
 }
 
 export const phoneStore = defaultStore
+
+export const Dialpad = DialpadComponent
+
+export type { DialpadProps }
 
 export const ReactSipPhone = ({
   name,
@@ -41,7 +46,8 @@ export const ReactSipPhone = ({
           phoneConfig={phoneConfig}
           appConfig={appConfig}
         >
-          <div className={styles.container}
+          <div
+            className={styles.container}
             style={{
               ...containerStyle,
             }}

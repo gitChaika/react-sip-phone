@@ -92,7 +92,7 @@ class Status extends React.Component<Props> {
             <div className={styles.dropdownRow}>
               <img className={styles.dropdownIcon} src={soundIcon} />
               <Select
-                placeholder='Select Output...'
+                placeholder='Выберете канал выхода'
                 value={
                   outputs.find(
                     (output: any) => output.value === props.primaryOutput
@@ -108,7 +108,7 @@ class Status extends React.Component<Props> {
             <div className={styles.dropdownRow}>
               <img className={styles.dropdownIcon} src={micIcon} />
               <Select
-                placeholder='Select Input...'
+                placeholder='Выберете канал входа'
                 value={inputs.find(
                   (input: any) => input.value === props.primaryInput
                 )}
