@@ -74,7 +74,7 @@ class Dialstring extends React.Component<Props> {
                 e.preventDefault()
               }
             }}
-            placeholder='Enter the number to dial...'
+            placeholder='Введите номер'
             onChange={(e) =>
               this.setState({ currentDialString: e.target.value })
             }
