@@ -45,7 +45,6 @@ class Dialpad extends React.Component<Props> {
 
   handleClick(value: string) {
     const { session, onButtonClick, deviceId } = this.props
-    console.log('value', value)
     if (!!session && !!deviceId && session.state === SessionState.Established) {
       this.sendDTMF(value)
       playDTMF(value, deviceId)

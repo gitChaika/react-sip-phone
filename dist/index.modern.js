@@ -1480,7 +1480,6 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
         session = _this$props.session,
         onButtonClick = _this$props.onButtonClick,
         deviceId = _this$props.deviceId;
-    console.log('value', value);
 
     if (!!session && !!deviceId && session.state === SessionState.Established) {
       this.sendDTMF(value);
