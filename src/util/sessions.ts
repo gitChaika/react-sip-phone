@@ -7,12 +7,28 @@ import { holdAll } from '../util/hold'
 import { setLocalAudio, setRemoteAudio, cleanupMedia } from './audio'
 import toneManager from './ToneManager'
 
+export interface SessionStateHandlerParams {
+  onSessionEstablishing?(): void
+  onSessionEstablished?(): void
+  onSessionTerminating?(): void
+  onSessionTerminated?(): void
+}
+
 export class SessionStateHandler {
   private session: Session
   private ua: UserAgent
-  constructor(session: Session, ua: UserAgent) {
+  private onSessionEstablishing?(): void
+  private onSessionEstablished?(): void
+  private onSessionTerminating?(): void
+  private onSessionTerminated?(): void
+
+  constructor(session: Session, ua: UserAgent, params: SessionStateHandlerParams = {}) {
     this.session = session
     this.ua = ua
+    this.onSessionEstablishing = params.onSessionEstablishing
+    this.onSessionEstablished = params.onSessionEstablished
+    this.onSessionTerminating = params.onSessionTerminating
+    this.onSessionTerminated = params.onSessionTerminated
   }
 
   public stateChange = (newState: SessionState) => {
@@ -45,6 +61,9 @@ export class SessionStateHandler {
                   type: STRICT_MODE_SHOW_CALL_BUTTON
                 })
               }, 5000)
+              if (this.onSessionEstablishing) {
+                this.onSessionEstablishing()
+              }
               return
             } else {
               return
@@ -59,6 +78,9 @@ export class SessionStateHandler {
         toneManager.stopAll()
         setLocalAudio(this.session)
         setRemoteAudio(this.session)
+        if (this.onSessionEstablished) {
+          this.onSessionEstablished()
+        }
         break
       case SessionState.Terminating:
         phoneStore.dispatch({
@@ -66,6 +88,9 @@ export class SessionStateHandler {
         })
         toneManager.stopAll()
         cleanupMedia(this.session.id)
+        if (this.onSessionTerminating) {
+          this.onSessionTerminating()
+        }
         break
       case SessionState.Terminated:
         phoneStore.dispatch({
@@ -81,6 +106,9 @@ export class SessionStateHandler {
             type: STRICT_MODE_SHOW_CALL_BUTTON
           })
         }, 5000)
+        if (this.onSessionTerminated) {
+          this.onSessionTerminated()
+        }
         break
       default:
         console.log(`Unknown session state change: ${newState}`)

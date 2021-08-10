@@ -75,7 +75,6 @@ export default class SIPAccount {
     })
   }
 
-
   setupDelegate() {
     this._userAgent.delegate = {
       onInvite(invitation: Invitation): void {
@@ -161,7 +160,10 @@ export default class SIPAccount {
         // Handle outgoing session state changes.
         const stateHandler = new SessionStateHandler(
           outgoingSession,
-          this._userAgent
+          this._userAgent,
+          {
+            ...this._config
+          }
         )
         outgoingSession.stateChange.addListener(stateHandler.stateChange)
         outgoingSession
@@ -172,6 +174,10 @@ export default class SIPAccount {
           .catch((error: Error) => {
             console.log(error)
           })
+
+        if (this._config.onStartNewSession) {
+          this._config.onStartNewSession()
+        }
       } else {
         console.log(`Failed to establish outgoing call session to ${number}`)
       }

@@ -866,8 +866,12 @@ var ToneManager = /*#__PURE__*/function () {
 
 var toneManager = new ToneManager();
 
-var SessionStateHandler = function SessionStateHandler(session, ua) {
+var SessionStateHandler = function SessionStateHandler(session, ua, params) {
   var _this = this;
+
+  if (params === void 0) {
+    params = {};
+  }
 
   this.stateChange = function (newState) {
     switch (newState) {
@@ -897,6 +901,11 @@ var SessionStateHandler = function SessionStateHandler(session, ua) {
                   type: STRICT_MODE_SHOW_CALL_BUTTON
                 });
               }, 5000);
+
+              if (_this.onSessionEstablishing) {
+                _this.onSessionEstablishing();
+              }
+
               return;
             } else {
               return;
@@ -912,6 +921,11 @@ var SessionStateHandler = function SessionStateHandler(session, ua) {
         toneManager.stopAll();
         setLocalAudio(_this.session);
         setRemoteAudio(_this.session);
+
+        if (_this.onSessionEstablished) {
+          _this.onSessionEstablished();
+        }
+
         break;
 
       case sip_js.SessionState.Terminating:
@@ -920,6 +934,11 @@ var SessionStateHandler = function SessionStateHandler(session, ua) {
         });
         toneManager.stopAll();
         cleanupMedia(_this.session.id);
+
+        if (_this.onSessionTerminating) {
+          _this.onSessionTerminating();
+        }
+
         break;
 
       case sip_js.SessionState.Terminated:
@@ -936,6 +955,11 @@ var SessionStateHandler = function SessionStateHandler(session, ua) {
             type: STRICT_MODE_SHOW_CALL_BUTTON
           });
         }, 5000);
+
+        if (_this.onSessionTerminated) {
+          _this.onSessionTerminated();
+        }
+
         break;
 
       default:
@@ -946,6 +970,10 @@ var SessionStateHandler = function SessionStateHandler(session, ua) {
 
   this.session = session;
   this.ua = ua;
+  this.onSessionEstablishing = params.onSessionEstablishing;
+  this.onSessionEstablished = params.onSessionEstablished;
+  this.onSessionTerminating = params.onSessionTerminating;
+  this.onSessionTerminated = params.onSessionTerminated;
 };
 var getFullNumber = function getFullNumber(number) {
   if (number.length < 10) {
@@ -1204,13 +1232,17 @@ var SIPAccount = /*#__PURE__*/function () {
           type: NEW_SESSION,
           payload: outgoingSession
         });
-        var stateHandler = new SessionStateHandler(outgoingSession, this._userAgent);
+        var stateHandler = new SessionStateHandler(outgoingSession, this._userAgent, _extends({}, this._config));
         outgoingSession.stateChange.addListener(stateHandler.stateChange);
         outgoingSession.invite().then(function () {
           console.log('Invite sent!');
         })["catch"](function (error) {
           console.log(error);
         });
+
+        if (this._config.onStartNewSession) {
+          this._config.onStartNewSession();
+        }
       } else {
         console.log("Failed to establish outgoing call session to " + number);
       }

@@ -9,6 +9,11 @@ export interface SipConfig {
   iceServers: Array<string>
   defaultCountryCode: string
   noAnswerTimeout: number
+  onStartNewSession?(): void
+  onSessionEstablishing?(): void
+  onSessionEstablished?(): void
+  onSessionTerminating?(): void
+  onSessionTerminated?(): void
 }
 
 export interface PhoneConfig {
