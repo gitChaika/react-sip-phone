@@ -21,7 +21,7 @@ interface Props {
   sipConfig: SipConfig
   appConfig: AppConfig
   containerStyle: any
-onDialStringChange?(e: React.ChangeEvent<HTMLInputElement>): void
+  onDialStringChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 export const phoneStore = defaultStore

@@ -93,12 +93,21 @@ export const getFullNumber = (number: string) => {
   if (number.length < 10) {
     return number
   }
+
   // @ts-ignore
-  let fullNumber = `+${phoneStore.getState().sipAccounts.sipAccount._config.defaultCountryCode}${number}`
-  if (number.includes('+') && number.length === 10) {
-    fullNumber = `${number}`
+  const defaultCountryCode = phoneStore.getState().sipAccounts.sipAccount._config.defaultCountryCode;
+
+  let fullNumber = number.startsWith('+') ? number : `+${number}`
+
+  if (number.startsWith(defaultCountryCode)) {
+    fullNumber = `+${number}`
+  } else if (defaultCountryCode === '7' && number.startsWith('8')) {
+    fullNumber = `+${number.replace('8', '7')}`
+  } else if (defaultCountryCode) {
+    fullNumber = `+${defaultCountryCode}${number}`
   }
-  console.log(fullNumber)
+
+  console.log('fullNumber:', fullNumber)
   return fullNumber
 }
 

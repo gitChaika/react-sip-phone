@@ -950,13 +950,19 @@ var getFullNumber = function getFullNumber(number) {
     return number;
   }
 
-  var fullNumber = "+" + phoneStore.getState().sipAccounts.sipAccount._config.defaultCountryCode + number;
+  var defaultCountryCode = phoneStore.getState().sipAccounts.sipAccount._config.defaultCountryCode;
 
-  if (number.includes('+') && number.length === 10) {
-    fullNumber = "" + number;
+  var fullNumber = number.startsWith('+') ? number : "+" + number;
+
+  if (number.startsWith(defaultCountryCode)) {
+    fullNumber = "+" + number;
+  } else if (defaultCountryCode === '7' && number.startsWith('8')) {
+    fullNumber = "+" + number.replace('8', '7');
+  } else if (defaultCountryCode) {
+    fullNumber = "+" + defaultCountryCode + number;
   }
 
-  console.log(fullNumber);
+  console.log('fullNumber:', fullNumber);
   return fullNumber;
 };
 var statusMask = function statusMask(status) {
