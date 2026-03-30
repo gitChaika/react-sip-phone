@@ -98,7 +98,7 @@ class Status extends React.Component<Props> {
                     (output: any) => output.value === props.primaryOutput
                   ) || null
                 }
-                onChange={(option) =>
+                onChange={(option: any) =>
                   this.handleChangeDevice('out', option.value)
                 }
                 options={outputs}
@@ -112,7 +112,7 @@ class Status extends React.Component<Props> {
                 value={inputs.find(
                   (input: any) => input.value === props.primaryInput
                 )}
-                onChange={(option) =>
+                onChange={(option: any) =>
                   this.handleChangeDevice('in', option.value)
                 }
                 options={inputs}

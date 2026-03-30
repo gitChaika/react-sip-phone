@@ -9,52 +9,51 @@ import thunk from 'redux-thunk';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
+function _assertThisInitialized(e) {
+  if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return e;
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
   }
 }
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
+function _createClass(e, r, t) {
+  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+    writable: !1
+  }), e;
 }
-
 function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
+function _inheritsLoose(t, o) {
+  t.prototype = Object.create(o.prototype), t.prototype.constructor = t, _setPrototypeOf(t, o);
 }
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+function _toPrimitive(t, r) {
+  if ("object" != typeof t || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != typeof i) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
   }
-
-  return self;
+  return ("string" === r ? String : Number)(t);
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
 }
 
 var styles = {"container":"_1H7C6"};
@@ -138,7 +137,6 @@ var holdCallRequest = function holdCallRequest(session) {
         type: SIPSESSION_HOLD_FAIL
       };
     }
-
     try {
       session.invite({
         sessionDescriptionHandlerModifiers: [session.sessionDescriptionHandler.holdModifier]
@@ -152,7 +150,6 @@ var holdCallRequest = function holdCallRequest(session) {
         type: SIPSESSION_HOLD_FAIL
       });
     }
-
     return;
   };
 };
@@ -160,15 +157,13 @@ var unHoldCallRequest = function unHoldCallRequest(session, onHolds, sessions) {
   return function (dispatch) {
     for (var _i = 0, _Object$entries = Object.entries(sessions); _i < _Object$entries.length; _i++) {
       var _Object$entries$_i = _Object$entries[_i],
-          sessionId = _Object$entries$_i[0],
-          _session = _Object$entries$_i[1];
-
+        sessionId = _Object$entries$_i[0],
+        _session = _Object$entries$_i[1];
       if (onHolds.indexOf(sessionId) < 0 && sessionId !== session.id && _session.state === 'Established') {
         try {
           _session.invite({
             sessionDescriptionHandlerModifiers: [_session.sessionDescriptionHandler.holdModifier]
           });
-
           dispatch({
             type: SIPSESSION_HOLD_REQUEST,
             payload: _session.id
@@ -180,7 +175,6 @@ var unHoldCallRequest = function unHoldCallRequest(session, onHolds, sessions) {
         }
       }
     }
-
     try {
       session.invite();
       dispatch({
@@ -313,11 +307,9 @@ var setCredentials = function setCredentials(uri, password) {
   if (uri === void 0) {
     uri = '';
   }
-
   if (password === void 0) {
     password = '';
   }
-
   return {
     type: SET_CREDENTIALS,
     payload: {
@@ -358,12 +350,10 @@ var holdAll = function holdAll(id) {
   var state = phoneStore.getState();
   var onHolds = state.sipSessions.onHold;
   var sessions = state.sipSessions.sessions;
-
   for (var _i = 0, _Object$entries = Object.entries(sessions); _i < _Object$entries.length; _i++) {
     var _Object$entries$_i = _Object$entries[_i],
-        sessionId = _Object$entries$_i[0],
-        session = _Object$entries$_i[1];
-
+      sessionId = _Object$entries$_i[0],
+      session = _Object$entries$_i[1];
     if (onHolds.indexOf(sessionId) < 0 && sessionId !== id) {
       try {
         holdCallRequest(session);
@@ -428,24 +418,20 @@ var setPrimaryOutput = function setPrimaryOutput(deviceId, sessions) {
         dispatch({
           type: SET_REMOTE_AUDIO_SESSIONS_PENDING
         });
-
         for (var _i = 0, _Object$entries = Object.entries(sessions); _i < _Object$entries.length; _i++) {
           var _Object$entries$_i = _Object$entries[_i],
-              sessionId = _Object$entries$_i[0],
-              _session = _Object$entries$_i[1];
-
+            sessionId = _Object$entries$_i[0],
+            _session = _Object$entries$_i[1];
           if (_session.state === 'Established') {
             try {
               (function () {
                 var mediaElement = document.getElementById(sessionId);
                 var remoteStream = new MediaStream();
-
                 _session.sessionDescriptionHandler.peerConnection.getReceivers().forEach(function (receiver) {
                   if (receiver.track) {
                     remoteStream.addTrack(receiver.track);
                   }
                 });
-
                 if (mediaElement) {
                   mediaElement.setSinkId(deviceId).then(function () {
                     mediaElement.srcObject = remoteStream;
@@ -463,14 +449,12 @@ var setPrimaryOutput = function setPrimaryOutput(deviceId, sessions) {
               return;
             }
           }
-
           dispatch({
             type: SET_REMOTE_AUDIO_SESSION_SUCCESS
           });
         }
       }
     }
-
     dispatch({
       type: SET_PRIMARY_OUTPUT,
       payload: deviceId
@@ -484,17 +468,14 @@ var setPrimaryInput = function setPrimaryInput(deviceId, sessions, sinkIdAllowed
         dispatch({
           type: SET_LOCAL_AUDIO_SESSIONS_PENDING
         });
-
         var _loop = function _loop() {
           var _Object$entries2$_i = _Object$entries2[_i2],
-              sessionId = _Object$entries2$_i[0],
-              _session = _Object$entries2$_i[1];
-
+            sessionId = _Object$entries2$_i[0],
+            _session = _Object$entries2$_i[1];
           if (_session.state === 'Established') {
             try {
               _session.sessionDescriptionHandler.peerConnection.getSenders().forEach(function (sender) {
                 console.log(sessionId);
-
                 if (sender.track && sender.track.kind === 'audio') {
                   var audioDeviceId = deviceId;
                   navigator.mediaDevices.getUserMedia({
@@ -517,45 +498,37 @@ var setPrimaryInput = function setPrimaryInput(deviceId, sessions, sinkIdAllowed
               };
             }
           }
-
           dispatch({
             type: SET_LOCAL_AUDIO_SESSION_SUCCESS
           });
         };
-
         for (var _i2 = 0, _Object$entries2 = Object.entries(sessions); _i2 < _Object$entries2.length; _i2++) {
           var _ret = _loop();
-
           if (typeof _ret === "object") return _ret.v;
         }
       }
     }
-
     dispatch({
       type: SET_PRIMARY_INPUT,
       payload: deviceId
     });
-
     if (sinkIdAllowed === false) {
       if (sessions) {
         if (Object.keys(sessions).length > 0) {
           for (var _i3 = 0, _Object$entries3 = Object.entries(sessions); _i3 < _Object$entries3.length; _i3++) {
             var _Object$entries3$_i = _Object$entries3[_i3],
-                sessionId = _Object$entries3$_i[0],
-                _session = _Object$entries3$_i[1];
-
+              sessionId = _Object$entries3$_i[0],
+              _session = _Object$entries3$_i[1];
             if (_session.state === 'Established') {
               try {
                 (function () {
                   var mediaElement = document.getElementById(sessionId);
                   var remoteStream = new MediaStream();
-
                   _session.sessionDescriptionHandler.peerConnection.getReceivers().forEach(function (receiver) {
                     if (receiver.track) {
                       remoteStream.addTrack(receiver.track);
                     }
                   });
-
                   if (mediaElement) {
                     mediaElement.srcObject = remoteStream;
                     mediaElement.play();
@@ -571,7 +544,6 @@ var setPrimaryInput = function setPrimaryInput(deviceId, sessions, sinkIdAllowed
                 return;
               }
             }
-
             dispatch({
               type: SET_REMOTE_AUDIO_SESSION_SUCCESS
             });
@@ -593,7 +565,6 @@ var setRemoteAudio = function setRemoteAudio(session) {
       remoteStream.addTrack(receiver.track);
     }
   });
-
   if (mediaElement && typeof mediaElement.sinkId === 'undefined') {
     console.log('safari');
     phoneStore.dispatch({
@@ -611,7 +582,6 @@ var setRemoteAudio = function setRemoteAudio(session) {
       type: REMOTE_AUDIO_FAIL
     });
   }
-
   phoneStore.dispatch({
     type: REMOTE_AUDIO_CONNECTED
   });
@@ -628,7 +598,6 @@ var setLocalAudio = function setLocalAudio(session) {
         }
       }).then(function (stream) {
         var audioTrack = stream.getAudioTracks();
-
         if (audioTrack) {
           sender.replaceTrack(audioTrack[0]);
         }
@@ -641,7 +610,6 @@ var setLocalAudio = function setLocalAudio(session) {
 };
 var cleanupMedia = function cleanupMedia(sessionId) {
   var mediaElement = document.getElementById(sessionId);
-
   if (mediaElement) {
     mediaElement.srcObject = null;
     mediaElement.pause();
@@ -649,7 +617,6 @@ var cleanupMedia = function cleanupMedia(sessionId) {
 };
 
 var Tone = require('tone');
-
 var DTMF_MATRIX = {
   1: [697, 1209],
   2: [697, 1336],
@@ -672,11 +639,9 @@ var Synth = Tone.PolySynth && new Tone.PolySynth(2, Tone.Synth);
 var FMSynth = Tone.PolySynth && new Tone.PolySynth(2, Tone.FMSynth);
 var playDTMF = function playDTMF(key, deviceId) {
   var obj = DTMF_MATRIX[key];
-
   if (!obj) {
     console.log('invalid DTMF tone input');
   }
-
   Synth.volume.value = -10;
   Synth.set({
     oscillator: {
@@ -689,10 +654,8 @@ var playDTMF = function playDTMF(key, deviceId) {
       release: 0.02
     }
   });
-
   if (deviceId !== 'default') {
     var mediaElement = document.getElementById('tone');
-
     if (mediaElement) {
       var dest = Tone.context.createMediaStreamDestination();
       Synth.connect(dest);
@@ -704,7 +667,6 @@ var playDTMF = function playDTMF(key, deviceId) {
   } else {
     Synth.toMaster();
   }
-
   Synth.triggerAttackRelease(obj, 0.3);
 };
 var callDisconnect = function callDisconnect(deviceId) {
@@ -712,10 +674,8 @@ var callDisconnect = function callDisconnect(deviceId) {
   FMSynth.triggerRelease(['C4', 'E4'], '+0.14');
   FMSynth.triggerAttack(['D4', 'G4'], '+0.14');
   FMSynth.triggerRelease(['D4', 'G4'], '+0.18');
-
   if (deviceId !== 'default') {
     var mediaElement = document.getElementById('tone');
-
     if (mediaElement) {
       var dest = Tone.context.createMediaStreamDestination();
       Synth.connect(dest);
@@ -728,14 +688,11 @@ var callDisconnect = function callDisconnect(deviceId) {
     FMSynth.toMaster();
   }
 };
-
 var TonePlayer = /*#__PURE__*/function () {
   function TonePlayer() {
     var _this = this;
-
     this.ringtone = function (deviceId) {
       var mediaElement = document.getElementById('ringtone');
-
       if (deviceId !== 'default') {
         if (mediaElement) {
           mediaElement.setSinkId(deviceId).then(function () {
@@ -748,7 +705,6 @@ var TonePlayer = /*#__PURE__*/function () {
         mediaElement.play();
       }
     };
-
     this.ringback = function (deviceId) {
       var dest = Tone.context.createMediaStreamDestination();
       console.log(dest);
@@ -763,13 +719,10 @@ var TonePlayer = /*#__PURE__*/function () {
           release: 0.02
         }
       }).connect(dest);
-
       if (deviceId !== 'default') {
         var mediaElement = document.getElementById('tone');
-
         if (mediaElement) {
           var _dest = Tone.context.createMediaStreamDestination();
-
           Synth.connect(_dest);
           mediaElement.setSinkId(deviceId).then(function () {
             mediaElement.srcObject = _dest.stream;
@@ -779,20 +732,15 @@ var TonePlayer = /*#__PURE__*/function () {
       } else {
         Synth.toMaster();
       }
-
       _this.loop = new Tone.Loop(function (time) {
         Synth.triggerAttack([440, 480]);
         Synth.triggerRelease([440, 480], time + 2);
       }, 6);
-
       _this.loop.start(0);
-
       Tone.Transport.start();
     };
   }
-
   var _proto = TonePlayer.prototype;
-
   _proto.stop = function stop() {
     if (this.loop) {
       try {
@@ -801,7 +749,6 @@ var TonePlayer = /*#__PURE__*/function () {
         console.log('no loop to stop');
       }
     }
-
     if (Tone.Transport) {
       try {
         Tone.Transport.stop();
@@ -810,12 +757,9 @@ var TonePlayer = /*#__PURE__*/function () {
         console.log('no tone to stop');
       }
     }
-
     var mediaElement = document.getElementById('ringtone');
-
     if (mediaElement) {
       var promise = mediaElement.pause();
-
       if (promise !== undefined) {
         promise["catch"](function (error) {
           console.log(error);
@@ -825,24 +769,19 @@ var TonePlayer = /*#__PURE__*/function () {
       }
     }
   };
-
   return TonePlayer;
 }();
 
 var ToneManager = /*#__PURE__*/function () {
   function ToneManager() {}
-
   var _proto = ToneManager.prototype;
-
   _proto.playRing = function playRing(type) {
     var state = phoneStore.getState();
     var deviceId = state.device.primaryAudioOutput;
-
     if (this.currentTone) {
       this.currentTone.stop();
       this.currentTone = undefined;
     }
-
     if (type === 'ringback') {
       this.currentTone = new TonePlayer();
       this.currentTone.ringback(deviceId);
@@ -851,26 +790,21 @@ var ToneManager = /*#__PURE__*/function () {
       this.currentTone.ringtone(deviceId);
     }
   };
-
   _proto.stopAll = function stopAll() {
     if (this.currentTone) {
       this.currentTone.stop();
       this.currentTone = undefined;
     }
   };
-
   return ToneManager;
 }();
-
 var toneManager = new ToneManager();
 
 var SessionStateHandler = function SessionStateHandler(session, ua, params) {
   var _this = this;
-
   if (params === void 0) {
     params = {};
   }
-
   this.stateChange = function (newState) {
     switch (newState) {
       case SessionState.Establishing:
@@ -884,11 +818,8 @@ var SessionStateHandler = function SessionStateHandler(session, ua, params) {
           if (message.includes('BYE ') && message.indexOf('BYE ') === 0) {
             if (_this.session.state === 'Establishing') {
               console.log(message + " session has recieved a BYE message when the session state is establishing");
-
               _this.session.cancel();
-
               _this.session.dispose();
-
               setTimeout(function () {
                 phoneStore.dispatch({
                   type: CLOSE_SESSION,
@@ -899,11 +830,9 @@ var SessionStateHandler = function SessionStateHandler(session, ua, params) {
                   type: STRICT_MODE_SHOW_CALL_BUTTON
                 });
               }, 5000);
-
               if (_this.onSessionEstablishing) {
                 _this.onSessionEstablishing();
               }
-
               return;
             } else {
               return;
@@ -911,7 +840,6 @@ var SessionStateHandler = function SessionStateHandler(session, ua, params) {
           }
         });
         break;
-
       case SessionState.Established:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
@@ -919,26 +847,20 @@ var SessionStateHandler = function SessionStateHandler(session, ua, params) {
         toneManager.stopAll();
         setLocalAudio(_this.session);
         setRemoteAudio(_this.session);
-
         if (_this.onSessionEstablished) {
           _this.onSessionEstablished();
         }
-
         break;
-
       case SessionState.Terminating:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
         });
         toneManager.stopAll();
         cleanupMedia(_this.session.id);
-
         if (_this.onSessionTerminating) {
           _this.onSessionTerminating();
         }
-
         break;
-
       case SessionState.Terminated:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
@@ -953,19 +875,15 @@ var SessionStateHandler = function SessionStateHandler(session, ua, params) {
             type: STRICT_MODE_SHOW_CALL_BUTTON
           });
         }, 5000);
-
         if (_this.onSessionTerminated) {
           _this.onSessionTerminated();
         }
-
         break;
-
       default:
         console.log("Unknown session state change: " + newState);
         break;
     }
   };
-
   this.session = session;
   this.ua = ua;
   this.onSessionEstablishing = params.onSessionEstablishing;
@@ -977,11 +895,8 @@ var getFullNumber = function getFullNumber(number) {
   if (number.length < 10) {
     return number;
   }
-
   var defaultCountryCode = phoneStore.getState().sipAccounts.sipAccount._config.defaultCountryCode;
-
   var fullNumber = number.startsWith('+') ? number : "+" + number;
-
   if (number.startsWith(defaultCountryCode)) {
     fullNumber = "+" + number;
   } else if (defaultCountryCode === '7' && number.startsWith('8')) {
@@ -989,7 +904,6 @@ var getFullNumber = function getFullNumber(number) {
   } else if (defaultCountryCode) {
     fullNumber = "+" + defaultCountryCode + number;
   }
-
   console.log('fullNumber:', fullNumber);
   return fullNumber;
 };
@@ -997,17 +911,13 @@ var statusMask = function statusMask(status) {
   switch (status) {
     case 'Established':
       return 'Соединение';
-
     case 'Establishing':
       return 'Звонок...';
-
     case 'Initial':
       return 'Инициализирован';
-
     case 'Terminating':
     case 'Terminated':
       return 'Завершен';
-
     default:
       return "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439 \u0441\u0442\u0430\u0442\u0443\u0441: " + status;
   }
@@ -1018,7 +928,6 @@ var getDurationDisplay = function getDurationDisplay(duration) {
   minutes = minutes % 60;
   var seconds = duration % 60;
   var dh, dm, ds;
-
   if (hours && hours < 10) {
     dh = "0" + hours + ":";
   } else if (hours) {
@@ -1026,7 +935,6 @@ var getDurationDisplay = function getDurationDisplay(duration) {
   } else {
     dh = '00:';
   }
-
   if (minutes && minutes < 10) {
     dm = "0" + minutes + ":";
   } else if (minutes) {
@@ -1034,7 +942,6 @@ var getDurationDisplay = function getDurationDisplay(duration) {
   } else {
     dm = '00:';
   }
-
   if (seconds && seconds < 10) {
     ds = "0" + seconds;
   } else if (seconds) {
@@ -1042,13 +949,11 @@ var getDurationDisplay = function getDurationDisplay(duration) {
   } else {
     ds = '00';
   }
-
   return "" + (hours ? dh : '') + dm + ds;
 };
 
 var IncomingSessionStateHandler = function IncomingSessionStateHandler(incomingSession) {
   var _this = this;
-
   this.stateChange = function (newState) {
     switch (newState) {
       case SessionState.Establishing:
@@ -1056,7 +961,6 @@ var IncomingSessionStateHandler = function IncomingSessionStateHandler(incomingS
           type: SIPSESSION_STATECHANGE
         });
         break;
-
       case SessionState.Established:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
@@ -1065,14 +969,12 @@ var IncomingSessionStateHandler = function IncomingSessionStateHandler(incomingS
         setLocalAudio(_this.incomingSession);
         setRemoteAudio(_this.incomingSession);
         break;
-
       case SessionState.Terminating:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
         });
         cleanupMedia(_this.incomingSession.id);
         break;
-
       case SessionState.Terminated:
         phoneStore.dispatch({
           type: SIPSESSION_STATECHANGE
@@ -1084,28 +986,23 @@ var IncomingSessionStateHandler = function IncomingSessionStateHandler(incomingS
           });
         }, 5000);
         break;
-
       default:
         console.log("Unknown session state change: " + newState);
         break;
     }
   };
-
   this.incomingSession = incomingSession;
 };
 
 var SIPAccount = /*#__PURE__*/function () {
   function SIPAccount(sipConfig, sipCredentials) {
     var _this = this;
-
     this._config = sipConfig;
     this._credentials = sipCredentials;
     var uri = UserAgent.makeURI('sip:' + sipCredentials.sipuri);
-
     if (!uri) {
       throw new Error('Failed to create URI');
     }
-
     var transportOptions = {
       server: sipConfig.websocket
     };
@@ -1139,21 +1036,16 @@ var SIPAccount = /*#__PURE__*/function () {
     this._userAgent = new UserAgent(userAgentOptions);
     this._registerer = new Registerer(this._userAgent, registererOptions);
     this.setupDelegate();
-
     this._userAgent.start().then(function () {
       _this._registerer.register();
-
       _this.setupRegistererListener();
-
       phoneStore.dispatch({
         type: NEW_USERAGENT,
         payload: _this._userAgent
       });
     });
   }
-
   var _proto = SIPAccount.prototype;
-
   _proto.setupDelegate = function setupDelegate() {
     this._userAgent.delegate = {
       onInvite: function onInvite(invitation) {
@@ -1172,29 +1064,24 @@ var SIPAccount = /*#__PURE__*/function () {
       }
     };
   };
-
   _proto.setupRegistererListener = function setupRegistererListener() {
     this._registerer.stateChange.addListener(function (newState) {
       switch (newState) {
         case RegistererState.Initial:
           console.log('The user registration has initialized  ');
           break;
-
         case RegistererState.Registered:
           console.log('The user is registered ');
           break;
-
         case RegistererState.Unregistered:
           console.log('The user is unregistered ');
           break;
-
         case RegistererState.Terminated:
           console.log('The user is terminated ');
           break;
       }
     });
   };
-
   _proto.makeCall = function makeCall(number) {
     var state = phoneStore.getState();
     var sessionsLimit = state.config.phoneConfig.sessionsLimit;
@@ -1203,20 +1090,17 @@ var SIPAccount = /*#__PURE__*/function () {
     var attendedTransfersActive = state.sipSessions.attendedTransfers.length;
     var sessionsActive = Object.keys(sessionsActiveObject).length;
     var sessionDiff = sessionsActive - attendedTransfersActive;
-
     if (sessionDiff >= sessionsLimit) {
       phoneStore.dispatch({
         type: SESSIONS_LIMIT_REACHED
       });
     } else {
       var target = UserAgent.makeURI("sip:" + getFullNumber(number) + "@" + this._credentials.sipuri.split('@')[1] + ";user=phone");
-
       if (strictMode === 'strict') {
         phoneStore.dispatch({
           type: STRICT_MODE_HIDE_CALL_BUTTON
         });
       }
-
       if (target) {
         console.log("Calling " + number);
         var inviter = new Inviter(this._userAgent, target);
@@ -1237,7 +1121,6 @@ var SIPAccount = /*#__PURE__*/function () {
         })["catch"](function (error) {
           console.log(error);
         });
-
         if (this._config.onStartNewSession) {
           this._config.onStartNewSession();
         }
@@ -1246,47 +1129,36 @@ var SIPAccount = /*#__PURE__*/function () {
       }
     }
   };
-
   _proto.listener = function listener() {};
-
   return SIPAccount;
 }();
 
 var SipWrapper = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(SipWrapper, _React$Component);
-
   function SipWrapper() {
     return _React$Component.apply(this, arguments) || this;
   }
-
   var _proto = SipWrapper.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     console.log('mounted');
-
     if (this.props.sipCredentials.password) {
       this.initializeSip();
     }
   };
-
   _proto.initializeSip = function initializeSip() {
     var account = new SIPAccount(this.props.sipConfig, this.props.sipCredentials);
     this.props.setNewAccount(account);
     this.props.setPhoneConfig(this.props.phoneConfig);
     this.props.setAppConfig(this.props.appConfig);
   };
-
   _proto.render = function render() {
     return createElement(Fragment, null, this.props.children);
   };
-
   return SipWrapper;
 }(Component);
-
 var mapStateToProps = function mapStateToProps() {
   return {};
 };
-
 var actions = {
   setNewAccount: setNewAccount,
   setPhoneConfig: setPhoneConfig,
@@ -1298,31 +1170,23 @@ var SipWrapper$1 = connect(mapStateToProps, actions)(SipWrapper);
 var styles$1 = {"container":"_Adysl","incoming":"_14y58","dialpad":"_24i7u","closed":"_3nIZK","statusLarge":"_3G14Z","dialpadButton":"_38DZj","dialpadButtonLetters":"_N-jqm","dialpadRow":"_19SxG","actionButton":"_1hhhF","on":"_3ZwLv","endCallButton":"_3z8u3","startCallButton":"_3UW76","actionsContainer":"_2kDeL","transferMenu":"_1yjIy","transferInput":"_2tho8","transferButtons":"_Rc_m0","userString":"_gelBY","userStringLarge":"_rgh4W","settingsButton":"_3TfJl","settingsMenu":"_6JtnT","dropdowns":"_2FMhO","dropdownRow":"_2NuIJ","dropdownIcon":"_1K5Gw"};
 
 var settingsIcon = require('./assets/settings-24px.svg');
-
 var micIcon = require('./assets/mic-24px.svg');
-
 var soundIcon = require('./assets/volume_up-24px.svg');
-
 var Status = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Status, _React$Component);
-
   function Status() {
     var _this;
-
     _this = _React$Component.apply(this, arguments) || this;
     _this.state = {
       settingsMenu: false
     };
     return _this;
   }
-
   var _proto = Status.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     this.props.getInputAudioDevices();
     this.props.getOutputAudioDevices();
   };
-
   _proto.mapOptions = function mapOptions(options) {
     var list = [];
     options.map(function (option) {
@@ -1333,7 +1197,6 @@ var Status = /*#__PURE__*/function (_React$Component) {
     });
     return list;
   };
-
   _proto.handleChangeDevice = function handleChangeDevice(type, id) {
     if (type === 'out') {
       this.props.setPrimaryOutput(id, this.props.sessions);
@@ -1341,12 +1204,10 @@ var Status = /*#__PURE__*/function (_React$Component) {
       this.props.setPrimaryInput(id, this.props.sessions, this.props.sinkIdAllowed);
     }
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var props = this.props,
-        state = this.state;
+      state = this.state;
     var inputs = this.mapOptions(props.inputs);
     var outputs = this.mapOptions(props.outputs);
     return createElement(Fragment, null, createElement("div", {
@@ -1408,10 +1269,8 @@ var Status = /*#__PURE__*/function (_React$Component) {
       }
     })));
   };
-
   return Status;
 }(Component);
-
 var mapStateToProps$1 = function mapStateToProps(state) {
   return {
     inputs: state.device.audioInput,
@@ -1422,7 +1281,6 @@ var mapStateToProps$1 = function mapStateToProps(state) {
     sinkIdAllowed: state.device.sinkId
   };
 };
-
 var actions$1 = {
   setPrimaryInput: setPrimaryInput,
   setPrimaryOutput: setPrimaryOutput,
@@ -1435,8 +1293,8 @@ var styles$2 = {"container":"_33s4p","incoming":"_3dASG","dialpad":"_-iUpI","clo
 
 var DialButton = function DialButton(_ref) {
   var text = _ref.text,
-      click = _ref.click,
-      letters = _ref.letters;
+    click = _ref.click,
+    letters = _ref.letters;
   return createElement("div", {
     id: 'sip-dial-button',
     className: styles$2.dialpadButton,
@@ -1455,34 +1313,24 @@ var getButtonLetters = function getButtonLetters(value) {
   switch (value) {
     case '1':
       return '1';
-
     case '2':
       return 'ABC';
-
     case '3':
       return 'DEF';
-
     case '4':
       return 'GHI';
-
     case '5':
       return 'JKL';
-
     case '6':
       return 'MNO';
-
     case '7':
       return 'PQRS';
-
     case '8':
       return 'TUV';
-
     case '9':
       return 'WXYZ';
-
     case '0':
       return '+';
-
     default:
       return '';
   }
@@ -1490,35 +1338,26 @@ var getButtonLetters = function getButtonLetters(value) {
 
 var Dialpad = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Dialpad, _React$Component);
-
   function Dialpad(props) {
     var _this;
-
     _this = _React$Component.call(this, props) || this;
     _this.topRow = [];
     _this.middleRow = [];
     _this.bottomRow = [];
-
     for (var x = 1; x < 4; x++) {
       _this.topRow.push(_this.getButton(x.toString()));
     }
-
     for (var _x = 4; _x < 7; _x++) {
       _this.middleRow.push(_this.getButton(_x.toString()));
     }
-
     for (var _x2 = 7; _x2 < 10; _x2++) {
       _this.bottomRow.push(_this.getButton(_x2.toString()));
     }
-
     return _this;
   }
-
   var _proto = Dialpad.prototype;
-
   _proto.getButton = function getButton(value) {
     var _this2 = this;
-
     return createElement(DialButton, {
       key: value,
       text: value,
@@ -1528,13 +1367,11 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
       }
     });
   };
-
   _proto.handleClick = function handleClick(value) {
     var _this$props = this.props,
-        session = _this$props.session,
-        onButtonClick = _this$props.onButtonClick,
-        deviceId = _this$props.deviceId;
-
+      session = _this$props.session,
+      onButtonClick = _this$props.onButtonClick,
+      deviceId = _this$props.deviceId;
     if (!!session && !!deviceId && session.state === SessionState.Established) {
       this.sendDTMF(value);
       playDTMF(value, deviceId);
@@ -1542,7 +1379,6 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
       onButtonClick(value);
     }
   };
-
   _proto.sendDTMF = function sendDTMF(value) {
     var options = {
       requestOptions: {
@@ -1555,7 +1391,6 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
     };
     this.props.session.info(options);
   };
-
   _proto.render = function render() {
     return createElement("div", {
       className: this.props.open ? '' : styles$2.closed,
@@ -1570,30 +1405,23 @@ var Dialpad = /*#__PURE__*/function (_React$Component) {
       className: styles$2.dialpadRow
     }, this.getButton('*'), this.getButton('0'), this.getButton('#')));
   };
-
   return Dialpad;
 }(Component);
-
 var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     deviceId: state.device.primaryAudioOutput
   };
 };
-
 var actions$2 = {};
 var Dialpad$1 = connect(mapStateToProps$2, actions$2)(Dialpad);
 
 var holdIcon = require('./assets/phone_paused-24px.svg');
-
 var Hold = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Hold, _React$Component);
-
   function Hold() {
     return _React$Component.apply(this, arguments) || this;
   }
-
   var _proto = Hold.prototype;
-
   _proto.hold = function hold() {
     if (this.checkHoldState()) {
       this.props.unHoldCallRequest(this.props.session, this.props.onHold, this.props.sessions);
@@ -1601,14 +1429,11 @@ var Hold = /*#__PURE__*/function (_React$Component) {
       this.props.holdCallRequest(this.props.session);
     }
   };
-
   _proto.checkHoldState = function checkHoldState() {
     return this.props.onHold.includes(this.props.session.id);
   };
-
   _proto.render = function render() {
     var _this = this;
-
     return createElement("button", {
       className: this.checkHoldState() ? styles$2.on : '',
       id: styles$2.actionButton,
@@ -1619,10 +1444,8 @@ var Hold = /*#__PURE__*/function (_React$Component) {
       src: holdIcon
     }));
   };
-
   return Hold;
 }(Component);
-
 var mapStateToProps$3 = function mapStateToProps(state) {
   return {
     stateChanged: state.sipSessions.stateChanged,
@@ -1631,7 +1454,6 @@ var mapStateToProps$3 = function mapStateToProps(state) {
     onHold: state.sipSessions.onHold
   };
 };
-
 var actions$3 = {
   holdCallRequest: holdCallRequest,
   unHoldCallRequest: unHoldCallRequest
@@ -1639,35 +1461,27 @@ var actions$3 = {
 var Hold$1 = connect(mapStateToProps$3, actions$3)(Hold);
 
 var micOffIcon = require('./assets/mic_off-24px.svg');
-
 var Mute = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Mute, _React$Component);
-
   function Mute() {
     var _this;
-
     _this = _React$Component.apply(this, arguments) || this;
     _this.state = {
       onMute: false
     };
     return _this;
   }
-
   var _proto = Mute.prototype;
-
   _proto.mute = function mute() {
     var _this2 = this;
-
     if (this.state.onMute) {
       this.props.unMuteRequest();
       return new Promise(function (resolve, reject) {
         if (!_this2.props.session.sessionDescriptionHandler || _this2.props.session.state !== SessionState.Established) {
           _this2.props.unMuteFail();
-
           reject('No session to mute');
           return;
         }
-
         try {
           var pc = _this2.props.session.sessionDescriptionHandler.peerConnection;
           pc.getSenders().forEach(function (stream) {
@@ -1675,35 +1489,27 @@ var Mute = /*#__PURE__*/function (_React$Component) {
               stream.track.enabled = true;
             }
           });
-
           _this2.props.unMuteSuccess();
-
           _this2.setState({
             onMute: false
           });
-
           resolve();
           return;
         } catch (err) {
           _this2.props.unMuteFail();
-
           reject(err);
         }
       });
     }
-
     if (!this.state.onMute) {
       return new Promise(function (resolve, reject) {
         if (!_this2.props.session.sessionDescriptionHandler || _this2.props.session.state !== SessionState.Established) {
           _this2.props.muteFail();
-
           reject('No session to mute');
           return;
         }
-
         try {
           _this2.props.muteRequest();
-
           var pc = _this2.props.session.sessionDescriptionHandler.peerConnection;
           console.log(pc.getSenders());
           pc.getSenders().forEach(function (stream) {
@@ -1711,31 +1517,24 @@ var Mute = /*#__PURE__*/function (_React$Component) {
               stream.track.enabled = false;
             }
           });
-
           _this2.props.muteSuccess();
-
           _this2.setState({
             onMute: true
           });
-
           resolve();
           return;
         } catch (err) {
           _this2.props.muteFail();
-
           reject(err);
           return;
         }
       });
     }
-
     this.props.muteFail();
     return;
   };
-
   _proto.render = function render() {
     var _this3 = this;
-
     return createElement("div", {
       className: this.state.onMute ? styles$2.on : '',
       id: styles$2.actionButton,
@@ -1746,10 +1545,8 @@ var Mute = /*#__PURE__*/function (_React$Component) {
       src: micOffIcon
     }));
   };
-
   return Mute;
 }(Component);
-
 var mapStateToProps$4 = function mapStateToProps(state) {
   return {
     stateChanged: state.sipSessions.stateChanged,
@@ -1757,7 +1554,6 @@ var mapStateToProps$4 = function mapStateToProps(state) {
     userAgent: state.sipAccounts.userAgent
   };
 };
-
 var actions$4 = {
   muteRequest: muteRequest,
   muteSuccess: muteSuccess,
@@ -1769,20 +1565,15 @@ var actions$4 = {
 var Mute$1 = connect(mapStateToProps$4, actions$4)(Mute);
 
 var blindIcon = require('./assets/arrow_forward-24px.svg');
-
 var BlindTransfer = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(BlindTransfer, _React$Component);
-
   function BlindTransfer() {
     return _React$Component.apply(this, arguments) || this;
   }
-
   var _proto = BlindTransfer.prototype;
-
   _proto.blindTransferCall = function blindTransferCall() {
     this.props.blindTransferRequest();
     var target = UserAgent.makeURI("sip:" + getFullNumber(this.props.destination) + "@" + this.props.sipAccount._credentials.sipuri.split('@')[1] + ";user=phone");
-
     if (target) {
       try {
         this.props.session.refer(target);
@@ -1794,10 +1585,8 @@ var BlindTransfer = /*#__PURE__*/function (_React$Component) {
       this.props.blindTransferFail();
     }
   };
-
   _proto.render = function render() {
     var _this = this;
-
     return createElement(Fragment, null, createElement("button", {
       className: styles$2.transferButtons,
       onClick: function onClick() {
@@ -1807,10 +1596,8 @@ var BlindTransfer = /*#__PURE__*/function (_React$Component) {
       src: blindIcon
     })));
   };
-
   return BlindTransfer;
 }(Component);
-
 var mapStateToProps$5 = function mapStateToProps(state) {
   return {
     sipAccount: state.sipAccounts.sipAccount,
@@ -1819,7 +1606,6 @@ var mapStateToProps$5 = function mapStateToProps(state) {
     userAgent: state.sipAccounts.userAgent
   };
 };
-
 var actions$5 = {
   blindTransferRequest: blindTransferRequest,
   blindTransferSuccess: blindTransferSuccess,
@@ -1828,17 +1614,12 @@ var actions$5 = {
 var BlindTranfer = connect(mapStateToProps$5, actions$5)(BlindTransfer);
 
 var attendedIcon = require('./assets/phone_in_talk-24px.svg');
-
 var cancelIcon = require('./assets/call_end-24px.svg');
-
 var connectIcon = require('./assets/arrow_forward-24px.svg');
-
 var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(AttendedTransfer, _React$Component);
-
   function AttendedTransfer() {
     var _this;
-
     _this = _React$Component.apply(this, arguments) || this;
     _this.state = {
       attendedTransferSessionPending: null,
@@ -1846,19 +1627,15 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
     };
     return _this;
   }
-
   var _proto = AttendedTransfer.prototype;
-
   _proto.attendedTransferCall = function attendedTransferCall() {
     var _this2 = this;
-
     if (this.props.attendedTransfersList.length >= this.props.phoneConfig.attendedTransferLimit) {
       this.props.attendedTransferLimitReached();
     } else {
       this.holdAll();
       this.props.attendedTransferRequest();
       var target = UserAgent.makeURI("sip:" + getFullNumber(this.props.destination) + "@" + this.props.sipAccount._credentials.sipuri.split('@')[1] + ";user=phone");
-
       if (target) {
         var inviter = new Inviter(this.props.userAgent, target);
         var outgoingSession = inviter;
@@ -1874,46 +1651,32 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
             case SessionState.Initial:
             case SessionState.Establishing:
               _this2.props.stateChange(newState, outgoingSession.id);
-
               _this2.props.attendedTransferPending();
-
               break;
-
             case SessionState.Established:
               _this2.setState({
                 attendedTransferSessionReady: outgoingSession
               });
-
               _this2.props.attendedTransferReady();
-
               _this2.setState({
                 attendedTransferSessionPending: false
               });
-
               _this2.props.stateChange(newState, outgoingSession.id);
-
               setLocalAudio(outgoingSession);
               setRemoteAudio(outgoingSession);
               break;
-
             case SessionState.Terminating:
               _this2.props.stateChange(newState, outgoingSession.id);
-
               cleanupMedia(outgoingSession.id);
               break;
-
             case SessionState.Terminated:
               _this2.props.stateChange(newState, outgoingSession.id);
-
               _this2.attendedTransferClear();
-
               _this2.props.attendedTransferCancel(outgoingSession);
-
               setTimeout(function () {
                 _this2.props.closeSession(outgoingSession.id);
               }, 5000);
               break;
-
             default:
               console.log("Unknown session state change: " + newState);
               break;
@@ -1921,7 +1684,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
         });
         outgoingSession.invite()["catch"](function (error) {
           _this2.props.attendedTransferFail(outgoingSession);
-
           console.log(error);
         });
       } else {
@@ -1929,7 +1691,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
       }
     }
   };
-
   _proto.attendedTransferClear = function attendedTransferClear() {
     this.setState({
       attendedTransferSessionPending: null
@@ -1939,7 +1700,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
     });
     this.props.started(false);
   };
-
   _proto.connectAttendedTransfer = function connectAttendedTransfer(attendedTransferSession) {
     try {
       this.props.session.refer(attendedTransferSession);
@@ -1951,7 +1711,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
       console.log(err);
     }
   };
-
   _proto.cancelAttendedTransfer = function cancelAttendedTransfer(attendedTransferSession) {
     attendedTransferSession.cancel();
     this.props.attendedTransferCancel(attendedTransferSession);
@@ -1962,25 +1721,20 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
       attendedTransferSession: null
     });
   };
-
   _proto.holdAll = function holdAll() {
     var state = phoneStore.getState();
     var onHolds = state.sipSessions.onHold;
-
     if (this.props.session.id in onHolds === false) {
       try {
         this.props.holdCallRequest(this.props.session);
       } catch (err) {
         console.log(err);
       }
-
       return;
     }
   };
-
   _proto.render = function render() {
     var _this3 = this;
-
     if (this.state.attendedTransferSessionReady) {
       var phoneConfigAttended = {
         disabledButtons: ['numpad', 'transfer'],
@@ -1997,7 +1751,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
         className: styles$2.transferButtons,
         onClick: function onClick() {
           _this3.props.started(false);
-
           _this3.connectAttendedTransfer(_this3.state.attendedTransferSessionReady);
         }
       }, createElement("img", {
@@ -2008,7 +1761,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
         className: styles$2.endCallButton,
         onClick: function onClick() {
           _this3.props.started(false);
-
           _this3.cancelAttendedTransfer(_this3.state.attendedTransferSessionPending);
         }
       }, createElement("img", {
@@ -2019,7 +1771,6 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
         className: styles$2.transferButtons,
         onClick: function onClick() {
           _this3.props.started(true);
-
           _this3.attendedTransferCall();
         }
       }, createElement("img", {
@@ -2027,10 +1778,8 @@ var AttendedTransfer = /*#__PURE__*/function (_React$Component) {
       }));
     }
   };
-
   return AttendedTransfer;
 }(Component);
-
 var mapStateToProps$6 = function mapStateToProps(state) {
   return {
     sipAccount: state.sipAccounts.sipAccount,
@@ -2041,7 +1790,6 @@ var mapStateToProps$6 = function mapStateToProps(state) {
     phoneConfig: state.config.phoneConfig
   };
 };
-
 var actions$6 = {
   holdCallRequest: holdCallRequest,
   attendedTransferRequest: attendedTransferRequest,
@@ -2057,17 +1805,12 @@ var actions$6 = {
 var AttendedTransfer$1 = connect(mapStateToProps$6, actions$6)(AttendedTransfer);
 
 var endCallIcon = require('./assets/call_end-24px.svg');
-
 var dialpadIcon = require('./assets/dialpad-24px.svg');
-
 var transferIcon = require('./assets/arrow_forward-24px.svg');
-
 var Phone = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Phone, _React$Component);
-
   function Phone(props) {
     var _this;
-
     _this = _React$Component.call(this, props) || this;
     _this.state = {
       dialpadOpen: false,
@@ -2081,9 +1824,7 @@ var Phone = /*#__PURE__*/function (_React$Component) {
     _this.attendedProcess = _this.attendedProcess.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   var _proto = Phone.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     if (this.props.phoneConfig.disabledButtons.includes('dialpadopen')) {
       this.setState({
@@ -2091,22 +1832,18 @@ var Phone = /*#__PURE__*/function (_React$Component) {
       });
     }
   };
-
   _proto.componentDidUpdate = function componentDidUpdate(newProps) {
     if (newProps.session.state === SessionState.Established && !this.state.counterStarted) {
       this.handleCounter();
     }
-
     if (newProps.session.state === SessionState.Terminated && this.state.ended === false) {
       this.setState({
         ended: true
       });
     }
   };
-
   _proto.endCall = function endCall() {
     var _this2 = this;
-
     if (this.props.session.state === SessionState.Established) {
       this.props.session.bye();
     } else if (this.props.session.state === SessionState.Initial || this.props.session.state === SessionState.Establishing) {
@@ -2114,54 +1851,43 @@ var Phone = /*#__PURE__*/function (_React$Component) {
       callDisconnect(this.props.deviceId);
       this.props.session.cancel();
     }
-
     this.setState({
       ended: true
     });
     setTimeout(function () {
       _this2.props.session.dispose();
-
       _this2.props.endCall(_this2.props.session.id);
-
       if (_this2.props.strictMode === 'strict') {
         _this2.props.setAppConfigStarted();
       }
     }, 5000);
   };
-
   _proto.attendedProcess = function attendedProcess(bool) {
     this.setState({
       attendedTransferStarted: bool
     });
   };
-
   _proto.handleCounter = function handleCounter() {
     var _this3 = this;
-
     if (this.props.session && this.props.session.state !== SessionState.Terminated) {
       if (this.state.counterStarted === false) {
         this.setState({
           counterStarted: true
         });
       }
-
       setTimeout(function () {
         _this3.setState({
           duration: _this3.state.duration + 1
         });
-
         _this3.handleCounter();
       }, 1000);
     }
   };
-
   _proto.render = function render() {
     var _this4 = this;
-
     var state = this.state,
-        props = this.props;
+      props = this.props;
     var durationDisplay;
-
     if (props.appSize === 'large') {
       if (this.props.session.state === SessionState.Initial || this.props.session.state === SessionState.Establishing) {
         durationDisplay = null;
@@ -2177,7 +1903,6 @@ var Phone = /*#__PURE__*/function (_React$Component) {
         durationDisplay = createElement("div", null, getDurationDisplay(this.state.duration));
       }
     }
-
     return createElement(Fragment, null, props.phoneConfig.disabledFeatures.includes('remoteid') ? null : createElement(Fragment, null, createElement("div", null, props.session.remoteIdentity.uri.normal.user + " - " + props.session.remoteIdentity._displayName, createElement("br", null))), props.appSize === 'large' ? createElement("div", {
       className: styles$2.statusLarge
     }, statusMask(props.session.state)) : createElement("div", null, statusMask(props.session.state)), createElement("br", null), durationDisplay, state.ended ? null : createElement(Fragment, null, createElement(Dialpad$1, {
@@ -2240,10 +1965,8 @@ var Phone = /*#__PURE__*/function (_React$Component) {
       autoPlay: true
     })));
   };
-
   return Phone;
 }(Component);
-
 var mapStateToProps$7 = function mapStateToProps(state) {
   return {
     stateChanged: state.sipSessions.stateChanged,
@@ -2254,7 +1977,6 @@ var mapStateToProps$7 = function mapStateToProps(state) {
     appSize: state.config.appConfig.appSize
   };
 };
-
 var actions$7 = {
   endCall: endCall,
   setAppConfigStarted: setAppConfigStarted
@@ -2262,41 +1984,30 @@ var actions$7 = {
 var Phone$1 = connect(mapStateToProps$7, actions$7)(Phone);
 
 var acceptIcon = require('./assets/call-24px.svg');
-
 var declineIcon = require('./assets/call_end-24px.svg');
-
 var ring = require('./assets/ring.mp3');
-
 var Incoming = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Incoming, _React$Component);
-
   function Incoming() {
     return _React$Component.apply(this, arguments) || this;
   }
-
   var _proto = Incoming.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     var _this = this;
-
     toneManager.stopAll();
     toneManager.playRing('ringtone');
     console.log("auto-answer is: " + this.props.autoanswer);
-
     if (this.props.autoanswer) {
       this.timer = setInterval(function () {
         _this.handleAutoAnswer();
       }, 1000);
     }
   };
-
   _proto.componentWillUnmount = function componentWillUnmount() {
     clearInterval(this.timer);
   };
-
   _proto.handleAccept = function handleAccept() {
     toneManager.stopAll();
-
     if (this.props.session.state === SessionState.Initial) {
       this.props.session.accept({
         sessionDescriptionHandlerOptions: {
@@ -2307,33 +2018,24 @@ var Incoming = /*#__PURE__*/function (_React$Component) {
         }
       });
     }
-
     this.props.acceptCall(this.props.session);
   };
-
   _proto.handleAutoAnswer = function handleAutoAnswer() {
     console.log('\n\n\n ************ handleAutoAnswer ********** \n\n\n');
-
     if (this.props.session.state === SessionState.Initial) {
       this.handleAccept();
     }
-
     clearInterval(this.timer);
   };
-
   _proto.handleDecline = function handleDecline() {
     toneManager.stopAll();
-
     if (this.props.session.state !== SessionState.Terminated && this.props.session.state !== SessionState.Terminating) {
       this.props.session.reject();
     }
-
     this.props.declineCall(this.props.session);
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var props = this.props;
     return createElement("div", {
       id: styles$2.incoming
@@ -2361,16 +2063,13 @@ var Incoming = /*#__PURE__*/function (_React$Component) {
       id: this.props.session.id
     }));
   };
-
   return Incoming;
 }(Component);
-
 var mapStateToProps$8 = function mapStateToProps(state) {
   return {
     stateChanged: state.sipSessions.stateChanged
   };
 };
-
 var actions$8 = {
   acceptCall: acceptCall,
   declineCall: declineCall
@@ -2379,10 +2078,8 @@ var Incoming$1 = connect(mapStateToProps$8, actions$8)(Incoming);
 
 var getSessions = function getSessions(sessions, phoneConfig, attendedTransfers, incomingCalls) {
   var elements = [];
-
   for (var session in sessions) {
     if (attendedTransfers.includes(session)) continue;
-
     if (incomingCalls.includes(session)) {
       if (Object.keys(sessions).length >= phoneConfig.sessionsLimit + incomingCalls.length) {
         console.log('Невозможно создать больше сеансов...');
@@ -2402,26 +2099,19 @@ var getSessions = function getSessions(sessions, phoneConfig, attendedTransfers,
       }));
     }
   }
-
   return elements;
 };
-
 var PhoneSessions = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(PhoneSessions, _React$Component);
-
   function PhoneSessions() {
     return _React$Component.apply(this, arguments) || this;
   }
-
   var _proto = PhoneSessions.prototype;
-
   _proto.render = function render() {
     return createElement(Fragment, null, getSessions(this.props.sessions, this.props.phoneConfig, this.props.attendedTransfers, this.props.incomingCalls));
   };
-
   return PhoneSessions;
 }(Component);
-
 var mapStateToProps$9 = function mapStateToProps(state) {
   return {
     sessions: state.sipSessions.sessions,
@@ -2429,57 +2119,44 @@ var mapStateToProps$9 = function mapStateToProps(state) {
     attendedTransfers: state.sipSessions.attendedTransfers
   };
 };
-
 var PS = connect(mapStateToProps$9)(PhoneSessions);
 
 var styles$3 = {"container":"_2iAE_","dialButton":"_3GsXr","dialButtonStrict":"_tfL15","dialInput":"_32AFz","dialstringContainerStrict":"_2qSFk","dialstringContainer":"_2sye_"};
 
 var callIcon = require('./assets/call-24px.svg');
-
 var callIconLarge = require('./assets/call-large-40px.svg');
-
 var Dialstring = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(Dialstring, _React$Component);
-
   function Dialstring() {
     var _this;
-
     _this = _React$Component.apply(this, arguments) || this;
     _this.state = {
       currentDialString: ''
     };
     return _this;
   }
-
   var _proto = Dialstring.prototype;
-
   _proto.handleDial = function handleDial() {
     var sessionsActive = Object.keys(this.props.sessions).length;
     var attendedTransferActive = this.props.attendedTransfersList.length;
     var sessionDiff = sessionsActive - attendedTransferActive;
-
     if (sessionDiff >= this.props.phoneConfig.sessionsLimit) {
       this.props.sessionsLimitReached();
     } else {
       if (this.props.appConfig.mode === 'strict') {
         this.props.sipAccount.makeCall(this.props.phoneConfig.defaultDial);
       }
-
       if (!this.checkDialstring()) {
         this.props.sipAccount.makeCall("" + this.currentDialString);
       }
     }
   };
-
   _proto.checkDialstring = function checkDialstring() {
     return this.currentDialString.length === 0;
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var props = this.props;
-
     if (props.appConfig.mode.includes('strict') && props.started === true) {
       return createElement("div", {
         className: styles$3.dialstringContainerStrict
@@ -2501,7 +2178,6 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
         onKeyPress: function onKeyPress(e) {
           if (e.key === 'Enter') {
             _this2.handleDial();
-
             e.preventDefault();
           }
         },
@@ -2527,17 +2203,14 @@ var Dialstring = /*#__PURE__*/function (_React$Component) {
       })));
     }
   };
-
   _createClass(Dialstring, [{
     key: "currentDialString",
     get: function get() {
       return !!this.props.currentDialString ? this.props.currentDialString : this.state.currentDialString;
     }
   }]);
-
   return Dialstring;
 }(Component);
-
 var mapStateToProps$a = function mapStateToProps(state) {
   return {
     sipAccount: state.sipAccounts.sipAccount,
@@ -2546,7 +2219,6 @@ var mapStateToProps$a = function mapStateToProps(state) {
     attendedTransfersList: state.sipSessions.attendedTransfers
   };
 };
-
 var actions$9 = {
   sessionsLimitReached: sessionsLimitReached
 };
@@ -2554,7 +2226,6 @@ var D = connect(mapStateToProps$a, actions$9)(Dialstring);
 
 var sipSessions = function sipSessions(state, action) {
   var _extends2, _extends3, _extends4;
-
   if (state === void 0) {
     state = {
       sessions: {},
@@ -2564,10 +2235,8 @@ var sipSessions = function sipSessions(state, action) {
       attendedTransfers: []
     };
   }
-
   var type = action.type,
-      payload = action.payload;
-
+    payload = action.payload;
   switch (type) {
     case INCOMING_CALL:
       console.log('Incoming call');
@@ -2575,19 +2244,16 @@ var sipSessions = function sipSessions(state, action) {
         sessions: _extends(_extends({}, state.sessions), {}, (_extends2 = {}, _extends2[payload.id] = payload, _extends2)),
         incomingCalls: [].concat(state.incomingCalls, [payload.id])
       });
-
     case NEW_SESSION:
       console.log('New session added');
       return _extends(_extends({}, state), {}, {
         sessions: _extends(_extends({}, state.sessions), {}, (_extends3 = {}, _extends3[payload.id] = payload, _extends3))
       });
-
     case NEW_ATTENDED_TRANSFER:
       return _extends(_extends({}, state), {}, {
         sessions: _extends(_extends({}, state.sessions), {}, (_extends4 = {}, _extends4[payload.id] = payload, _extends4)),
         attendedTransfers: [].concat(state.attendedTransfers, [payload.id])
       });
-
     case SIPSESSION_ATTENDED_TRANSFER_CANCEL:
     case SIPSESSION_ATTENDED_TRANSFER_FAIL:
       {
@@ -2598,7 +2264,6 @@ var sipSessions = function sipSessions(state, action) {
           attendedTransfers: newAttendedTransfers
         });
       }
-
     case ACCEPT_CALL:
       {
         var acceptedIncoming = [].concat(state.incomingCalls).filter(function (id) {
@@ -2608,37 +2273,30 @@ var sipSessions = function sipSessions(state, action) {
           incomingCalls: acceptedIncoming
         });
       }
-
     case DECLINE_CALL:
       {
         var declinedIncoming = [].concat(state.incomingCalls).filter(function (id) {
           return id !== payload.id;
         });
-
         var declinedSessions = _extends({}, state.sessions);
-
         delete declinedSessions[payload.id];
         return _extends(_extends({}, state), {}, {
           incomingCalls: declinedIncoming,
           sessions: declinedSessions
         });
       }
-
     case SIPSESSION_STATECHANGE:
       {
         return _extends(_extends({}, state), {}, {
           stateChanged: state.stateChanged + 1
         });
       }
-
     case CLOSE_SESSION:
       {
         var closedIncoming = [].concat(state.incomingCalls).filter(function (id) {
           return id !== payload;
         });
-
         var newSessions = _extends({}, state.sessions);
-
         delete newSessions[payload];
         var endHold = [].concat(state.onHold).filter(function (id) {
           return id !== payload;
@@ -2649,14 +2307,12 @@ var sipSessions = function sipSessions(state, action) {
           onHold: endHold
         });
       }
-
     case SIPSESSION_HOLD_REQUEST:
       {
         return _extends(_extends({}, state), {}, {
           onHold: [].concat(state.onHold, [payload])
         });
       }
-
     case SIPSESSION_UNHOLD_REQUEST:
       {
         var newHold = [].concat(state.onHold).filter(function (id) {
@@ -2666,7 +2322,6 @@ var sipSessions = function sipSessions(state, action) {
           onHold: newHold
         });
       }
-
     default:
       return state;
   }
@@ -2680,21 +2335,17 @@ var sipAccounts = function sipAccounts(state, action) {
       status: ''
     };
   }
-
   var type = action.type,
-      payload = action.payload;
-
+    payload = action.payload;
   switch (type) {
     case NEW_ACCOUNT:
       return _extends(_extends({}, state), {}, {
         sipAccount: action.payload
       });
-
     case NEW_USERAGENT:
       return _extends(_extends({}, state), {}, {
         userAgent: payload
       });
-
     default:
       return state;
   }
@@ -2710,36 +2361,29 @@ var device = function device(state, action) {
       sinkId: true
     };
   }
-
   var type = action.type,
-      payload = action.payload;
-
+    payload = action.payload;
   switch (type) {
     case AUDIO_INPUT_DEVICES_DETECTED:
       return _extends(_extends({}, state), {}, {
         audioInput: payload
       });
-
     case AUDIO_OUTPUT_DEVICES_DETECTED:
       return _extends(_extends({}, state), {}, {
         audioOutput: payload
       });
-
     case SET_PRIMARY_OUTPUT:
       return _extends(_extends({}, state), {}, {
         primaryAudioOutput: payload
       });
-
     case SET_PRIMARY_INPUT:
       return _extends(_extends({}, state), {}, {
         primaryAudioInput: payload
       });
-
     case AUDIO_SINKID_NOT_ALLOWED:
       return _extends(_extends({}, state), {}, {
         sinkId: false
       });
-
     default:
       return state;
   }
@@ -2758,24 +2402,20 @@ var config = function config(state, action) {
       }
     };
   }
-
   switch (action.type) {
     case SET_PHONE_CONFIG:
       return _extends(_extends({}, state), {}, {
         phoneConfig: action.payload
       });
-
     case SET_CREDENTIALS:
       return _extends(_extends({}, state), {}, {
         uri: action.payload.uri,
         password: action.payload.password
       });
-
     case SET_APP_CONFIG:
       return _extends(_extends({}, state), {}, {
         appConfig: action.payload
       });
-
     case STRICT_MODE_SHOW_CALL_BUTTON:
       if (state.appConfig.mode === 'strict') {
         return _extends(_extends({}, state), {}, {
@@ -2785,9 +2425,7 @@ var config = function config(state, action) {
           })
         });
       }
-
       return state;
-
     case STRICT_MODE_HIDE_CALL_BUTTON:
       if (state.appConfig.mode === 'strict') {
         return _extends(_extends({}, state), {}, {
@@ -2797,9 +2435,7 @@ var config = function config(state, action) {
           })
         });
       }
-
       return state;
-
     default:
       return state;
   }
@@ -2826,14 +2462,14 @@ var phoneStore = defaultStore;
 var Dialpad$2 = Dialpad;
 var ReactSipPhone = function ReactSipPhone(_ref) {
   var name = _ref.name,
-      phoneConfig = _ref.phoneConfig,
-      sipConfig = _ref.sipConfig,
-      appConfig = _ref.appConfig,
-      sipCredentials = _ref.sipCredentials,
-      currentDialString = _ref.currentDialString,
-      onDialStringChange = _ref.onDialStringChange,
-      _ref$containerStyle = _ref.containerStyle,
-      containerStyle = _ref$containerStyle === void 0 ? {} : _ref$containerStyle;
+    phoneConfig = _ref.phoneConfig,
+    sipConfig = _ref.sipConfig,
+    appConfig = _ref.appConfig,
+    sipCredentials = _ref.sipCredentials,
+    currentDialString = _ref.currentDialString,
+    onDialStringChange = _ref.onDialStringChange,
+    _ref$containerStyle = _ref.containerStyle,
+    containerStyle = _ref$containerStyle === void 0 ? {} : _ref$containerStyle;
   return createElement(Provider, {
     store: phoneStore
   }, createElement(PersistGate, {
