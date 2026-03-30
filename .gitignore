@@ -4,7 +4,6 @@
 # dependencies
 node_modules
 .idea
-src
 # builds
 build
 .rpt2_cache
